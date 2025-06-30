@@ -6,9 +6,6 @@ import LoginComponentView from '@/views/LoginComponentView.vue'
 import TelaInicialView from '@/views/TelaInicialView.vue'
 
 
-
-
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [

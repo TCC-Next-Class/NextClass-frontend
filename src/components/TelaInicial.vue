@@ -24,7 +24,7 @@
       <div class="card-box">
         <div class="card" v-for="i in 5" :key="i">  
           <div class="card-cima">
-            <div class="card-title">MATERIA 1</div>
+            <div class="card-title">Materia 1</div>
             <div class="card-pontos"></div>
             <div class="card-avatar"></div>
           </div>
@@ -38,6 +38,7 @@
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </template>
