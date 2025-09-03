@@ -24,16 +24,12 @@
           <input type="email" placeholder="Email" />
           <input type="password" placeholder="Senha" />
           <input type="password" placeholder="Confirmar Senha" />
-          <button type="text" class="btn-green">CADASTRAR</button>
+          <button class="btn-green">CADASTRAR</button>
         </form>
       </div>
     </div>
   </div>
 </template>
-
-<script setup>
-</script>
-
 <style scoped>
 .content p{
 font-size: 12px;
