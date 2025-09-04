@@ -40,7 +40,7 @@ const processing = ref(false);
 async function submitForm() {}
 
 onMounted(() => {
-  document.title = 'Criar conta'
+  document.title = 'Criar conta - NextClass'
 })
 </script>
 

@@ -28,7 +28,7 @@ const processing = ref(false)
 async function submitForm() {}
 
 onMounted(() => {
-  document.title = 'Entrar'
+  document.title = 'Entrar - NextClass'
 })
 </script>
 

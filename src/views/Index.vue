@@ -5,8 +5,13 @@ import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
 import AppearanceTabs from '@/components/AppearanceTabs.vue'
 import { MessageSquare, Video, BookOpen, Zap, Target } from "lucide-vue-next"
+import { onMounted } from 'vue'
 
 const user = null;
+
+onMounted(() => {
+  document.title = 'Bem-vindo - NextClass'
+})
 </script>
 <template>
   <header class="px-4 sm:px-8 py-4 flex justify-between items-center max-w-6xl mx-auto">
