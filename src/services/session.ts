@@ -9,4 +9,12 @@ export default new class SessionService {
             throw error;
         }
     }
+
+    async revoke() {
+        try {
+            await api.post('/sessions/revoke');
+        } catch (error) {
+            throw error;
+        }
+    }
 }

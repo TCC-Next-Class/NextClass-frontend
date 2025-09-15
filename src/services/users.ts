@@ -22,4 +22,13 @@ export default new class UserService {
             throw error
         }
     }
+
+    async create(name: string, cpf: string, email: string, password: string, password_confirmation: string) {
+        try {
+            const response = await api.post('/users', { name, cpf, email, password, password_confirmation })
+            return response.data
+        } catch (error) {
+            throw error
+        }
+    }
 }

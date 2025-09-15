@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { reactive } from 'vue'
 import { Mail } from 'lucide-vue-next'
 import InputError from '@/components/InputError.vue'
 import { Input } from '@/components/ui/input'

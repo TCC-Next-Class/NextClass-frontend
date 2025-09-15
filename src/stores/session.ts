@@ -33,9 +33,21 @@ export const useSession = defineStore("session", () => {
         }
     }
 
+    const revoke = async () => {
+        try {
+            await sessionService.revoke();
+            state.token.value = null;
+            state.user.value = null;
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+
     return {
         state,
         create,
         check,
+        revoke,
     }
 });

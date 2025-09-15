@@ -6,9 +6,13 @@ import { Input } from '@/components/ui/input'
 import AuthBase from '@/layouts/AuthLayoutSplit.vue'
 import { IdCard, LoaderCircle, Lock, Mail, User } from 'lucide-vue-next'
 import { onMounted } from 'vue'
-import { ref, reactive } from 'vue'
+import { reactive } from 'vue'
+import { useUsers } from '@/stores/users'
+import { useRouter } from "vue-router";
 
-const cpf = ref('')
+
+const router = useRouter();
+const users = useUsers()
 
 const formatCpf = (event: Event) => {
   let value = (event.target as HTMLInputElement).value.replace(/\D/g, '')
@@ -16,28 +20,53 @@ const formatCpf = (event: Event) => {
   value = value.replace(/(\d{3})(\d)/, '$1.$2')
   value = value.replace(/(\d{3})(\d)/, '$1.$2')
   value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2')
-  cpf.value = value
+  form.data.cpf = value
 }
 
 const form = reactive({
-  name: '',
-  cpf: '',
-  email: '',
-  password: '',
-  password_confirmation: '',
-});
+  data: {
+    name: '',
+    cpf: '',
+    email: '',
+    password: '',
+    password_confirmation: '',
+  },
+  errors: {
+    name: '',
+    cpf: '',
+    email: '',
+    password: '',
+    password_confirmation: '',
+  },
+  processing: false,
+})
 
-const errors = reactive({
-  name: '',
-  cpf: '',
-  email: '',
-  password: '',
-  password_confirmation: '',
-});
+async function submitForm() {
+  form.processing = true
 
-const processing = ref(false);
+  try {
+    await users.create(
+      form.data.name,
+      form.data.cpf,
+      form.data.email,
+      form.data.password,
+      form.data.password_confirmation,
+      router
+    )
+  } catch (error: any) {
+    if (error?.response?.data?.errors) {
+      const serverErrors = error.response.data.errors
 
-async function submitForm() {}
+      for (const errors in serverErrors) {
+        form.errors[errors as keyof typeof form.errors] = serverErrors[errors][0]
+      }
+    } else {
+      console.error('Erro inesperado:', error)
+    }
+  } finally {
+    form.processing = false
+  }
+}
 
 onMounted(() => {
   document.title = 'Criar conta - NextClass'
@@ -60,10 +89,10 @@ onMounted(() => {
             autofocus
             tabindex="1"
             autocomplete="name"
-            v-model="form.name"
+            v-model="form.data.name"
             placeholder=" "
             :class="[
-              errors.name
+              form.errors.name
                 ? 'border border-red-500 focus:border-primary'
                 : 'border border-input focus:border-primary',
               'peer bg-input/30 pl-10',
@@ -75,7 +104,7 @@ onMounted(() => {
           >
             <span class="block bg-input/30 px-1 select-none">Nome completo</span>
           </label>
-          <InputError class="absolute" :message="errors.name" />
+          <InputError class="absolute" :message="form.errors.name" />
         </div>
 
         <div class="relative">
@@ -86,11 +115,16 @@ onMounted(() => {
             required
             tabindex="2"
             autocomplete="off"
-            v-model="cpf"
+            v-model="form.data.cpf"
             @input="formatCpf"
             maxlength="14"
             placeholder="___.___.___-__"
-            class="peer bg-input/30 pl-10 placeholder:text-muted-foreground"
+            :class="[
+              form.errors.cpf
+                ? 'border border-red-500 focus:border-primary'
+                : 'border border-input focus:border-primary',
+              'peer bg-input/30 pl-10',
+            ]"
           />
           <label
             for="cpf"
@@ -98,7 +132,7 @@ onMounted(() => {
           >
             <span class="block bg-input/30 px-1 select-none">CPF</span>
           </label>
-          <InputError class="absolute" :message="errors.cpf" />
+          <InputError class="absolute" :message="form.errors.cpf" />
         </div>
 
         <div class="relative">
@@ -109,9 +143,14 @@ onMounted(() => {
             required
             tabindex="3"
             autocomplete="email"
-            v-model="form.email"
+            v-model="form.data.email"
             placeholder=" "
-            class="peer bg-input/30 pl-10"
+            :class="[
+              form.errors.email
+                ? 'border border-red-500 focus:border-primary'
+                : 'border border-input focus:border-primary',
+              'peer bg-input/30 pl-10',
+            ]"
           />
           <label
             for="email"
@@ -119,7 +158,7 @@ onMounted(() => {
           >
             <span class="block bg-input/30 px-1 select-none">Email</span>
           </label>
-          <InputError class="absolute" :message="errors.email" />
+          <InputError class="absolute" :message="form.errors.email" />
         </div>
 
         <div class="relative">
@@ -130,9 +169,14 @@ onMounted(() => {
             required
             tabindex="4"
             autocomplete="new-password"
-            v-model="form.password"
+            v-model="form.data.password"
             placeholder=" "
-            class="peer bg-input/30 pl-10"
+            :class="[
+              form.errors.password
+                ? 'border border-red-500 focus:border-primary'
+                : 'border border-input focus:border-primary',
+              'peer bg-input/30 pl-10',
+            ]"
           />
           <label
             for="password"
@@ -140,7 +184,7 @@ onMounted(() => {
           >
             <span class="block bg-input/30 px-1 select-none">Senha</span>
           </label>
-          <InputError class="absolute" :message="errors.password" />
+          <InputError class="absolute" :message="form.errors.password" />
         </div>
 
         <div class="relative">
@@ -151,9 +195,14 @@ onMounted(() => {
             required
             tabindex="5"
             autocomplete="new-password"
-            v-model="form.password_confirmation"
+            v-model="form.data.password_confirmation"
             placeholder=" "
-            class="peer bg-input/30 pl-10"
+            :class="[
+              form.errors.password_confirmation
+                ? 'border border-red-500 focus:border-primary'
+                : 'border border-input focus:border-primary',
+              'peer bg-input/30 pl-10',
+            ]"
           />
           <label
             for="password_confirmation"
@@ -161,16 +210,16 @@ onMounted(() => {
           >
             <span class="block bg-input/30 px-1 select-none">Confirmar Senha</span>
           </label>
-          <InputError class="absolute" :message="errors.password_confirmation" />
+          <InputError class="absolute" :message="form.errors.password_confirmation" />
         </div>
 
         <Button
           type="submit"
           class="mt-2 flex w-full cursor-pointer items-center justify-center gap-2 hover:bg-primary/80"
           tabindex="6"
-          :disabled="processing"
+          :disabled="form.processing"
         >
-          <LoaderCircle v-if="processing" class="h-4 w-4 animate-spin" />
+          <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
           <span>Cadastrar</span>
         </Button>
       </div>
