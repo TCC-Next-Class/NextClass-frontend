@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import TextLink from '@/components/TextLink.vue'
 import AuthBase from '@/layouts/AuthLayout.vue'
-import { ref, onMounted, Transition } from 'vue'
+import { onMounted, Transition } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 import { useRouter, useRoute } from 'vue-router'
 
@@ -9,22 +9,13 @@ const router = useRouter()
 const route = useRoute()
 
 onMounted(() => {
+  document.title = 'Entrar - NextClass'
+
   if (route.path === '/auth/signin' || route.path === '/auth/signin/') {
     router.replace('/auth/signin/identifier')
   }
 })
 
-const processing = ref(false)
-
-onMounted(() => {
-  document.title = 'Entrar - NextClass'
-})
-
-async function submitForm() {
-  if (route.path === '/auth/signin/identifier') {
-  } else {
-  }
-}
 </script>
 
 <template>
