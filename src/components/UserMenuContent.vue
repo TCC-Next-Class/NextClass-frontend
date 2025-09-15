@@ -5,10 +5,11 @@ import type { User } from '@/types';
 import { LogOut, Route, Settings } from 'lucide-vue-next';
 import { useSession } from '@/stores/session';
 import { RouterLink, useRouter } from 'vue-router';
-import { computed } from 'vue';
+import { computed,  } from 'vue';
+import type { ComputedRef } from 'vue';
 
 const session = useSession()
-const user = computed(() => session.state.user)
+const user: ComputedRef<any> = computed(() => session.state.user);
 const handleLogout = () => {
     session.revoke().then(() => {
         useRouter().push('/');
