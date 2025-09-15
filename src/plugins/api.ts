@@ -13,10 +13,8 @@ const api = axios.create({
 api.interceptors.request.use((config) => {
   const session = useSession();
 
-
-  
-  if (session.token) {
-    config.headers.Authorization = `Bearer ${session.token}`;
+  if (session) {
+    config.headers.Authorization = `Bearer ${session.state.token}`;
   }
   return config;
 });

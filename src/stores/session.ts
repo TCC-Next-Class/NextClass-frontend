@@ -2,29 +2,40 @@ import { defineStore } from "pinia";
 import { useStorage } from '@vueuse/core';
 import sessionService from '@/services/session'
 import userService from "@/services/users";
-import { computed } from "vue";
+import { ref } from "vue";
 
 export const useSession = defineStore("session", () => {
     const state = {
         token: useStorage('token', null),
-        user: useStorage('user', null),
+        user: ref(null)
     };
-    const token = computed(() => state.token.value);
 
     const create = async (email: string, password: string) => {
         try {
             const response = await sessionService.create(email, password);
 
-            state.token = response.token;
-            state.user = await userService.me();
+            state.token.value = response.access_token;
+            state.user.value = await userService.me();
             return response;
         } catch (error) {
             throw error;
         }
     };
 
+    const check = async () => {
+        try {
+            if (state.token.value) {
+                state.user.value = await userService.me();
+            }
+        } catch (error) {
+            state.token.value = null;
+            state.user.value = null;
+        }
+    }
+
     return {
-        token,
+        state,
         create,
+        check,
     }
 });

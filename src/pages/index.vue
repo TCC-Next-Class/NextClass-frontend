@@ -5,10 +5,11 @@ import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
 import AppearanceTabs from '@/components/AppearanceTabs.vue'
 import { MessageSquare, Video, BookOpen, Zap, Target } from "lucide-vue-next"
-import { onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
+import { useSession } from '@/stores/session'
+const session = useSession();
 
-const user = null;
-
+const user = computed(() => session.state.user);
 onMounted(() => {
   document.title = 'Bem-vindo - NextClass'
 })
