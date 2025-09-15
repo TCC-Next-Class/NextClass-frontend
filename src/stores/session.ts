@@ -15,7 +15,7 @@ export const useSession = defineStore("session", () => {
             const response = await sessionService.create(email, password);
 
             state.token.value = response.access_token;
-            state.user.value = await userService.me();
+            state.user.value = (await userService.me()).data;
             return response;
         } catch (error) {
             throw error;
@@ -25,7 +25,7 @@ export const useSession = defineStore("session", () => {
     const check = async () => {
         try {
             if (state.token.value) {
-                state.user.value = await userService.me();
+                state.user.value = (await userService.me()).data;
             }
         } catch (error) {
             state.token.value = null;

@@ -4,18 +4,17 @@ import { DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSep
 import type { User } from '@/types';
 import { LogOut, Route, Settings } from 'lucide-vue-next';
 import { useSession } from '@/stores/session';
-import { RouterLink } from 'vue-router';
+import { RouterLink, useRouter } from 'vue-router';
+import { computed } from 'vue';
 
-interface Props {
-    user: User;
-}
-
+const session = useSession()
+const user = computed(() => session.state.user)
 const handleLogout = () => {
-    useSession().revoke().then(() => {
+    session.revoke().then(() => {
+        useRouter().push('/');
     });
 };
 
-defineProps<Props>();
 </script>
 
 <template>
@@ -35,9 +34,9 @@ defineProps<Props>();
     </DropdownMenuGroup>
     <DropdownMenuSeparator />
     <DropdownMenuItem :as-child="true">
-        <RouterLink class="block w-full" method="post" to="logout" @click="handleLogout" as="button">
+        <button class="block w-full" method="post" to="logout" @click="handleLogout" as="button">
             <LogOut class="mr-2 h-4 w-4" />
             Log out
-        </RouterLink>
+        </button>
     </DropdownMenuItem>
 </template>
