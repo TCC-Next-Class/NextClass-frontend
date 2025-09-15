@@ -4,7 +4,7 @@ import AppLayout from '@/layouts/AppLayout.vue';
 const breadcrumbs: any = [
     { title: 'Dashboard', href: '/dashboard' },
 ];
-
+ 
 const institutions = [
   {
     id: 1,
