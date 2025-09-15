@@ -49,7 +49,7 @@ onMounted(() => {
           <Button size="lg" variant="outline"
             class="w-full sm:w-auto select-none transition-all duration-300 ease-out hover:scale-105 active:scale-95"
             as-child>
-            <RouterLink to="/account/signin">Entrar</RouterLink>
+            <RouterLink to="/auth/signin">Entrar</RouterLink>
           </Button>
         </div>
       </div>
@@ -221,11 +221,11 @@ onMounted(() => {
     </section>
 
     <section
-      class="bg-primary text-primary-foreground rounded-2xl py-12 sm:py-16 px-6 text-center space-y-6 mx-4 sm:mx-0">
+      class="bg-primary dark:bg-muted/50 text-primary-foreground rounded-2xl py-12 sm:py-16 px-6 text-center space-y-6 mx-4 sm:mx-0">
       <h2 class="text-2xl sm:text-3xl font-bold">Pronto para começar?</h2>
       <p class="text-base sm:text-lg opacity-90">Acesse agora mesmo e transforme seu aprendizado.</p>
       <Button size="lg"
-        class="bg-white text-primary hover:bg-gray-100 w-full sm:w-auto transition-all duration-300 ease-out hover:scale-105 active:scale-95"
+        class="bg-white text-primary dark:bg-primary dark:text-white hover:bg-gray-100 w-full sm:w-auto transition-all duration-300 ease-out hover:scale-105 active:scale-95"
         as-child>
         <RouterLink v-if="user" to="/dashboard" class="select-none">Dashboard</RouterLink>
         <RouterLink v-else to="/account/create" class="select-none">Criar conta</RouterLink>

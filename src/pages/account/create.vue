@@ -178,7 +178,7 @@ onMounted(() => {
       <div class="text-center text-sm text-muted-foreground">
         Já tem uma conta?
         <TextLink
-          href="/account/signin"
+          href="/auth/signin"
           class="underline underline-offset-4 hover:text-primary"
           :tabindex="7"
         >
@@ -188,7 +188,7 @@ onMounted(() => {
     </form>
     <template #login-button>
       <RouterLink
-        to="/account/signin"
+        to="/auth/signin"
         class="w-full rounded-lg border border-white/50 bg-white px-6 py-3 text-center font-semibold hover:bg-gray-100 sm:w-auto"
       >
         <span

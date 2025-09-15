@@ -13,7 +13,7 @@ export default defineConfig({
     vueDevTools(),
     tailwindcss(),
     Pages({
-      dirs: 'src/views'
+      dirs: 'src/pages'
     }),
   ],
   resolve: {

@@ -33,7 +33,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <AuthBase title="Bem vindo de volta!" description="Para continuar conectado conosco, faça login com suas informações pessoais.">
+  <AuthBase
+    title="Bem vindo de volta!"
+    description="Para continuar conectado conosco, faça login com suas informações pessoais."
+  >
     <form @submit.prevent="submitForm" class="flex flex-col gap-6">
       <div class="grid gap-6">
         <div class="relative">
@@ -87,20 +90,26 @@ onMounted(() => {
             <span class="block bg-input/30 px-1 select-none">Senha</span>
           </label>
           <InputError class="absolute" :message="errors.password" />
-
-          <TextLink
-            href="/password/request"
-            class="absolute top-1/2 right-3 -translate-y-1/2 text-sm text-primary no-underline hover:underline"
-            :tabindex="5"
-          >
-            Esqueceu?
-          </TextLink>
         </div>
 
-        <Label for="remember" class="flex items-center space-x-3 hover:cursor-pointer">
-          <Checkbox id="remember" v-model="form.remember" :tabindex="3" />
-          <span>Lembre de mim</span>
-        </Label>
+        <div class="flex items-center justify-between text-sm">
+          <Label for="remember" class="flex items-center space-x-3 hover:cursor-pointer">
+            <Checkbox
+              id="remember"
+              v-model="form.remember"
+              :tabindex="3"
+              class="hover:cursor-pointer"
+            />
+            <span>Lembre de mim</span>
+          </Label>
+          <TextLink
+            href="/password/request"
+            class="underline underline-offset-4 hover:text-primary"
+            :tabindex="5"
+          >
+            Esqueceu a senha?
+          </TextLink>
+        </div>
 
         <Button
           type="submit"
