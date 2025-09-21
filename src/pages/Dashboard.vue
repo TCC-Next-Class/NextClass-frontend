@@ -1,5 +1,11 @@
+<route lang="json">{
+  "meta": {
+    "requiresAuth": true
+  }
+}</route>
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
+import { useTitle } from '@/composables/useTitle';
 
 const breadcrumbs: any = [
     { title: 'Dashboard', href: '/dashboard' },
@@ -46,10 +52,10 @@ const institutions = [
     ]
   }
 ];
+
+useTitle().setTitle('Dashboard');
 </script>
 <template>
-    <Head title="Dashboard" />
-
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-8 rounded-xl p-4 overflow-x-auto">
             <div v-for="institution in institutions" :key="institution.id" class="space-y-4">

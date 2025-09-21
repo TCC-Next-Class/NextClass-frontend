@@ -1,18 +1,15 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router';
 import { useSession } from './stores/session';
-import { onMounted } from 'vue';
+import { useAccountLoading } from '@/composables/useGlobal';
 
 const session = useSession();
-onMounted(() => {
-  session.check();
-});
+const { start, stop } = useAccountLoading();
 
+const { loading } = session.check(() => stop());
+start();
 </script>
 
 <template>
   <router-view />
 </template>
-
-<style scoped>
-</style>

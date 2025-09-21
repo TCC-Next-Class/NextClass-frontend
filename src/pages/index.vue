@@ -1,29 +1,29 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
 import Footer from '@/components/Footer.vue'
-import { Button } from "@/components/ui/button"
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
+import { Button } from '@/components/ui/button'
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
 import AppearanceTabs from '@/components/AppearanceTabs.vue'
-import { MessageSquare, Video, BookOpen, Zap, Target } from "lucide-vue-next"
-import { computed, onMounted } from 'vue'
+import { MessageSquare, Video, BookOpen, Zap, Target } from 'lucide-vue-next'
 import { useSession } from '@/stores/session'
-const session = useSession();
+import { useTitle } from '@/composables/useTitle'
+import { useAccountLoading } from '@/composables/useGlobal'
+import { LoaderCircle } from 'lucide-vue-next'
 
-const user = computed(() => session.state.user);
-onMounted(() => {
-  document.title = 'Bem-vindo - NextClass'
-})
+const { isLoading: accountLoading } = useAccountLoading()
+const session = useSession()
+
+useTitle().setTitle('Bem-vindo')
 </script>
 <template>
   <header class="px-4 sm:px-8 py-4 flex justify-between items-center max-w-6xl mx-auto">
     <RouterLink to="/">
-    <img src="@/assets/media/logo.svg" alt="Logo" class="w-12 h-12 rounded-full select-none" />
+      <img src="@/assets/media/logo.svg" alt="Logo" class="w-12 h-12 rounded-full select-none" />
     </RouterLink>
     <AppearanceTabs />
   </header>
 
   <main class="mx-auto max-w-6xl space-y-8 mb-24">
-
     <section class="flex flex-col md:flex-row items-center justify-between gap-10 py-20 px-4 sm:px-8">
       <div class="flex-1 space-y-6 text-center md:text-left order-2 md:order-1">
         <h1 class="text-3xl sm:text-4xl font-bold leading-tight tracking-tight">
@@ -33,8 +33,14 @@ onMounted(() => {
           Uma plataforma interativa e moderna, construída para impulsionar o seu aprendizado.
         </p>
 
-        <div v-if="user" class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-          <Button size="lg"
+        <div v-if="session.state.user || accountLoading"
+          class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+          <Button v-if="accountLoading" size="lg"
+            class="bg-primary text-primary-foreground select-none transition-all duration-300 ease-out hover:scale-105 active:scale-95">
+            <LoaderCircle class="h-4 w-4 animate-spin" />
+          </Button>
+
+          <Button v-else size="lg"
             class="bg-primary text-primary-foreground select-none transition-all duration-300 ease-out hover:scale-105 active:scale-95"
             as-child>
             <RouterLink to="/dashboard">Dashboard</RouterLink>
@@ -53,6 +59,7 @@ onMounted(() => {
             <RouterLink to="/auth/signin">Entrar</RouterLink>
           </Button>
         </div>
+
       </div>
 
       <div class="flex-1 max-w-sm sm:max-w-md md:max-w-none order-1 md:order-2">
@@ -120,7 +127,8 @@ onMounted(() => {
       <div class="flex-2 order-1 md:order-2 space-y-6 text-center md:text-left order-2 md:order-1">
         <h2 class="text-3xl font-bold">Chat ao vivo nas turmas</h2>
         <p class="text-muted-foreground text-lg max-w-xl mx-auto md:mx-0">
-          Interaja em tempo real com colegas e professores, compartilhe dúvidas e colabore diretamente durante as aulas.
+          Interaja em tempo real com colegas e professores, compartilhe dúvidas e colabore
+          diretamente durante as aulas.
         </p>
       </div>
     </section>
@@ -149,8 +157,8 @@ onMounted(() => {
       <div class="flex-2 space-y-6 text-center md:text-left order-1 md:order-2">
         <h2 class="text-3xl font-bold">Formulários interativos integrados</h2>
         <p class="text-muted-foreground text-lg max-w-xl mx-auto md:mx-0">
-          Crie e responda questionários sem precisar de ferramentas externas.
-          Professores podem avaliar em tempo real e alunos recebem feedback imediato.
+          Crie e responda questionários sem precisar de ferramentas externas. Professores podem
+          avaliar em tempo real e alunos recebem feedback imediato.
         </p>
       </div>
     </section>
@@ -166,7 +174,8 @@ onMounted(() => {
           </CardHeader>
           <CardContent>
             <p class="text-muted-foreground text-sm text-center">
-              Professores podem criar e acompanhar entregas, enquanto alunos recebem alertas de prazos.
+              Professores podem criar e acompanhar entregas, enquanto alunos recebem alertas de
+              prazos.
             </p>
           </CardContent>
         </Card>
@@ -203,9 +212,8 @@ onMounted(() => {
         <Card>
           <CardContent class="p-6">
             <p class="text-muted-foreground italic">
-              "O NextClass transformou minha forma de dar aulas. Os alunos participam mais e consigo organizar tudo em
-              um
-              só lugar."
+              "O NextClass transformou minha forma de dar aulas. Os alunos participam mais e consigo
+              organizar tudo em um só lugar."
             </p>
             <p class="mt-4 font-semibold">— Prof. Ana Souza</p>
           </CardContent>
@@ -213,7 +221,8 @@ onMounted(() => {
         <Card>
           <CardContent class="p-6">
             <p class="text-muted-foreground italic">
-              "As aulas ao vivo integradas são incríveis! Não preciso mais alternar entre várias plataformas."
+              "As aulas ao vivo integradas são incríveis! Não preciso mais alternar entre várias
+              plataformas."
             </p>
             <p class="mt-4 font-semibold">— João Pereira, aluno</p>
           </CardContent>
@@ -224,11 +233,14 @@ onMounted(() => {
     <section
       class="bg-primary dark:bg-muted/50 text-primary-foreground rounded-2xl py-12 sm:py-16 px-6 text-center space-y-6 mx-4 sm:mx-0">
       <h2 class="text-2xl sm:text-3xl font-bold">Pronto para começar?</h2>
-      <p class="text-base sm:text-lg opacity-90">Acesse agora mesmo e transforme seu aprendizado.</p>
+      <p class="text-base sm:text-lg opacity-90">
+        Acesse agora mesmo e transforme seu aprendizado.
+      </p>
       <Button size="lg"
         class="bg-white text-primary dark:bg-primary dark:text-white hover:bg-gray-100 w-full sm:w-auto transition-all duration-300 ease-out hover:scale-105 active:scale-95"
-        as-child>
-        <RouterLink v-if="user" to="/dashboard" class="select-none">Dashboard</RouterLink>
+        :as-child="!accountLoading">
+        <LoaderCircle v-if="accountLoading" class="h-4 w-4 animate-spin" />
+        <RouterLink v-else-if="session.state.user" to="/dashboard" class="select-none">Dashboard</RouterLink>
         <RouterLink v-else to="/account/create" class="select-none">Criar conta</RouterLink>
       </Button>
     </section>

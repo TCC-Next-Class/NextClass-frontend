@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useSession } from "@/stores/session";
 
 const api = axios.create({
-  baseURL: import.meta.env.API_URL || 'https://nextclass-backend-ue8q.onrender.com/',
+  baseURL: import.meta.env.API_URL || 'http://localhost:8000/api',
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",

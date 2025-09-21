@@ -9,10 +9,11 @@ import { onMounted } from 'vue'
 import { reactive } from 'vue'
 import { useUsers } from '@/stores/users'
 import { useRouter } from "vue-router";
-
+import { useTitle } from '@/composables/useTitle'
 
 const router = useRouter();
 const users = useUsers()
+const { setTitle } = useTitle()
 
 const formatCpf = (event: Event) => {
   let value = (event.target as HTMLInputElement).value.replace(/\D/g, '')
@@ -68,9 +69,7 @@ async function submitForm() {
   }
 }
 
-onMounted(() => {
-  document.title = 'Criar conta - NextClass'
-})
+setTitle('Criar conta')
 </script>
 
 <template>

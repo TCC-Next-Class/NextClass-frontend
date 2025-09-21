@@ -42,7 +42,7 @@ async function submitForm() {
     await session.create(user.email, form.data.password)
 
     tempSession.remove('loginUser')
-    router.push({ path: '/' })
+    router.push({ path: '/dashboard' })
   } catch (error: any) {
     if (error?.response?.data?.errors?.password) {
       form.errors.password = error.response.data.errors.password
