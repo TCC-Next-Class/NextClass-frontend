@@ -13,13 +13,11 @@ export async function authGuard(
     const { start, stop } = useAccountLoading();
 
     if (!session.state.user) {
-        console.log('authGuard: checking session...')
         session.check(() => {
             if (to.meta.requiresAuth) {
                 if (session.state.user) {
-                    console.log('authGuard: user authenticated, proceeding to route')
+                    // pass
                 } else {
-                    console.log('authGuard: no user, redirecting to login');
                     return router.push('/');
                 }
             }
@@ -27,8 +25,7 @@ export async function authGuard(
         })
         start();
     } else {
-        console.log('authGuard: user authenticated, proceeding to route')
-
+        // pass
     }
 
     return next();
