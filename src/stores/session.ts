@@ -8,7 +8,6 @@ import type { User } from "@/types";
 
 export const useSession = defineStore("session", () => {
     const state = {
-        token: useStorage('token', null),
         user: ref<User | null>(null)
     };
 
@@ -16,7 +15,6 @@ export const useSession = defineStore("session", () => {
         try {
             const response = await sessionService.create(email, password);
 
-            state.token.value = response.access_token;
             state.user.value = (await userService.me()).data;
             return response;
         } catch (error) {
@@ -30,12 +28,9 @@ export const useSession = defineStore("session", () => {
 
         (async () => {
             try {
-                if (state.token.value) {
-                    state.user.value = (await userService.me()).data;
-                }
+                state.user.value = (await userService.me()).data;
             } catch (err: any) {
                 if (err.response && err.response.status === 401) {
-                    state.token.value = null;
                     state.user.value = null;
                 }
                 error.value = err;
@@ -51,7 +46,6 @@ export const useSession = defineStore("session", () => {
     const revoke = async () => {
         try {
             await sessionService.revoke();
-            state.token.value = null;
             state.user.value = null;
         }
         catch (error) {
