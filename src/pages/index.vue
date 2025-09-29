@@ -149,12 +149,12 @@ useTitle().setTitle('Bem-vindo')
     </section>
 
     <section class="flex flex-col md:flex-row items-center gap-10 py-16 px-4 sm:px-8">
-      <div class="flex-1 flex justify-center order-2 md:order-1">
+      <div class="flex-1 flex justify-center order-1">
         <div class="p-6 bg-muted rounded-xl shadow-md">
           <BookOpen class="w-20 h-20 text-primary" />
         </div>
       </div>
-      <div class="flex-2 space-y-6 text-center md:text-left order-1 md:order-2">
+      <div class="flex-2 space-y-6 text-center md:text-left order-2">
         <h2 class="text-3xl font-bold">Formulários interativos integrados</h2>
         <p class="text-muted-foreground text-lg max-w-xl mx-auto md:mx-0">
           Crie e responda questionários sem precisar de ferramentas externas. Professores podem
